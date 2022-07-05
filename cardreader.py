@@ -39,6 +39,7 @@ class AtomicOpen:
 
 # unhappy buzzer signal
 def buzzer_signal_bad():
+    buzzer.ChangeFrequency(98)
     buzzer.start(50)
     sleep(0.08)
     buzzer.stop()
@@ -81,9 +82,9 @@ def button_callback(channel):
     # copy over files to USB
     # mount USB (should be sda1) to media/usb. TODO: fallback to sdb, sdc...
     try:
-        subprocess.run(['sudo','mount','-o','uid=1000,gid=1000','/dev/sda1', USB_MOUNT_DIR])
+        subprocess.run(['sudo','mount','-o','uid=1000,gid=1000','/dev/sda1', USB_MOUNT_DIR], check=True)
     except subprocess.CalledProcessError as exc:
-        print(f"[ERROR] USB drive mount failed with error code {mount_rtn}")
+        print(f"[ERROR] USB drive mount failed with error code {exc.returncode}")
         buzzer_signal_bad()
         return
     print(f"[INFO] successfully mounted USB drive to {USB_MOUNT_DIR}")
@@ -131,7 +132,7 @@ def button_callback(channel):
                 # not having this check is not a huge problem, but it would be nice to have...
             if not local_md5sum==usb_md5sum:
                 try:
-                    subprocess.run(['sudo','cp', LOCAL_OUTPUT_DIR+lf, USB_MOUNT_DIR+lf])
+                    subprocess.run(['sudo','cp', LOCAL_OUTPUT_DIR+lf, USB_MOUNT_DIR+lf], check=True)
                 except subprocess.CalledProcessError as exc:
                     print(f"[ERROR] cp failed with error code {exc.returncode}")
                     buzzer_signal_bad()
@@ -140,7 +141,7 @@ def button_callback(channel):
         else:
             # not on usb yet, so copy over file
             try:
-                subprocess.run(['sudo','cp', LOCAL_OUTPUT_DIR+lf, USB_MOUNT_DIR+lf])
+                subprocess.run(['sudo','cp', LOCAL_OUTPUT_DIR+lf, USB_MOUNT_DIR+lf], check=True)
             except subprocess.CalledProcessError as exc:
                 print(f"[ERROR] cp failed with error code {exc.returncode}")
                 buzzer_signal_bad()
