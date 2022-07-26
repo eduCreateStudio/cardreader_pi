@@ -19,9 +19,10 @@ Green and red LEDs show ready and busy status respectively.
 Buzzer will make an unhappy signal upon any errors mounting, writing to, or
 unmounting the USB stick.
 
-Code is maintained at github.com/eduCreateStudio/cardreader.pi
-For annoying eduroam/SSL/DHCP/DNS reasons, git cannot clone repos on the RPi
-at the moment. You will have to manually update this code from the remote repo.
+Code is maintained at github.com/eduCreateStudio/cardreader_pi
+For annoying eduroam/SSL/DHCP/DNS reasons, git cannot clone from remote repos
+on the RPi at the moment. You will have to manually update this code from the
+remote repo on the RPi.
  
 
 TODO:
